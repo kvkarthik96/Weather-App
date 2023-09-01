@@ -1,36 +1,40 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weather_app/ui/home/bloc/home_bloc.dart';
 
-class CitySearchWidget extends StatefulWidget {
-  const CitySearchWidget({
-    super.key,
-    required this.searchController,
-    required this.homeBloc,
-    required this.allCityList,
-  });
+// ignore: must_be_immutable
+class CitySearchWidget extends StatelessWidget {
+  CitySearchWidget(
+      {super.key,
+      required this.searchController,
+      required this.homeBloc,
+      required this.allCityList,
+      required this.debounceTimer});
 
   final TextEditingController searchController;
   final HomeBloc homeBloc;
   final List<String> allCityList;
+  Timer debounceTimer;
 
-  @override
-  State<CitySearchWidget> createState() => _CitySearchWidgetState();
-}
-
-class _CitySearchWidgetState extends State<CitySearchWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 12.w),
       child: TextField(
-          controller: widget.searchController,
+          controller: searchController,
           onChanged: (value) {
             value = value.trim();
+            if (debounceTimer.isActive) debounceTimer.cancel();
 
-            widget.homeBloc.add(SearchCityEvent(
-                allCityList: widget.allCityList,
-                searchText: widget.searchController.text.trim()));
+            const Duration debounceDuration =
+                Duration(milliseconds: 500); // Set debounce time
+            debounceTimer = Timer(debounceDuration, () {
+              homeBloc.add(SearchCityEvent(
+                  allCityList: allCityList,
+                  searchText: searchController.text.trim()));
+            });
           },
           decoration: InputDecoration(
               hintStyle: const TextStyle(color: Colors.grey),
@@ -47,10 +51,10 @@ class _CitySearchWidgetState extends State<CitySearchWidget> {
                 color: Colors.grey,
                 onPressed: () {
                   FocusScope.of(context).unfocus();
-                  widget.searchController.clear();
-                  widget.homeBloc.add(SearchCityEvent(
-                      allCityList: widget.allCityList,
-                      searchText: widget.searchController.text.trim()));
+                  searchController.clear();
+                  homeBloc.add(SearchCityEvent(
+                      allCityList: allCityList,
+                      searchText: searchController.text.trim()));
                 },
               ))),
     );

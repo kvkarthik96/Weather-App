@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:weather_app/res/route_const.dart';
 import 'package:weather_app/routes/navigation_service.dart';
 import 'package:flutter/material.dart';
@@ -6,10 +7,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weather_app/routes/locator.dart';
 import 'package:weather_app/routes/routing.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupLocator();
-
+  await dotenv.load(); // Load environment variables
   runApp(const MyApp());
 }
 

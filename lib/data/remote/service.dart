@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:weather_app/data/model/weather_model.dart';
 import 'package:weather_app/data/remote/network.dart';
 
@@ -9,8 +10,8 @@ class Service {
   String baseUrl = 'https://weatherapi-com.p.rapidapi.com/current.json?q=';
 
   Map<String, String> headers = {
-    'X-RapidAPI-Key': 'ec12c0205cmsh4f88acb77c99562p1ee541jsn3acd3ba00356',
-    'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com'
+    'X-RapidAPI-Key': dotenv.env['X-RapidAPI-Key'] ?? '',
+    'X-RapidAPI-Host': dotenv.env['X-RapidAPI-Host'] ?? '',
   };
 
   // Weather Details API call

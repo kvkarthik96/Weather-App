@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/res/color_const.dart';
@@ -24,15 +26,19 @@ class _HomeScreenState extends State<HomeScreen> {
   final searchKey = GlobalKey<FormFieldState>();
   final TextEditingController searchController = TextEditingController();
 
+  late Timer debounceTimer;
+
   @override
   void initState() {
     homeBloc.add(GetCitiesListEvent());
+    debounceTimer = Timer(const Duration(milliseconds: 500), () {});
     super.initState();
   }
 
   @override
   void dispose() {
     homeBloc.close();
+    debounceTimer.cancel();
     super.dispose();
   }
 
@@ -71,9 +77,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     AppWidgets.getDefaultSizedBox(),
                     CitySearchWidget(
-                        searchController: searchController,
-                        homeBloc: homeBloc,
-                        allCityList: state.allCityList),
+                      searchController: searchController,
+                      homeBloc: homeBloc,
+                      allCityList: state.allCityList,
+                      debounceTimer: debounceTimer,
+                    ),
                     state.citiesList.isNotEmpty
                         ? Expanded(
                             child: ListView.builder(
