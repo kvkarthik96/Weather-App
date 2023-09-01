@@ -83,7 +83,7 @@ class DetailsLoadingWidget extends StatelessWidget {
   Column titleWidgetShimmer() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         AppWidgets.getDefaultSizedBox(height: 20),
         ShimmerContainer(height: 45, width: 0.5.sw),
