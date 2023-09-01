@@ -24,6 +24,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       citiesList = await service.getCitiesList();
 
+      // allCityList data is used for search functionality
       emit(HomeLoadedState(citiesList: citiesList, allCityList: citiesList));
     } catch (e) {
       emit(HomeErrorState());

@@ -51,97 +51,130 @@ class _WeatherDetailsScreenState extends State<WeatherDetailsScreen> {
                 onPressed: () {
                   Navigator.pop(context);
                 }),
-            body: Container(
-              width: 1.sw,
-              margin: EdgeInsets.symmetric(horizontal: 15.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AppWidgets.getDefaultSizedBox(height: 20),
-                  LabelText(
-                      text:
-                          '${state.response.location?.name}, \n${state.response.location?.region}',
-                      size: 33,
-                      fontWeight: FontWeight.normal,
-                      color: kBlackColor),
-                  AppWidgets.getDefaultSizedBox(height: 15),
-                  LabelText(
-                    text: '${state.response.location?.localtime}',
-                    size: 14,
-                    color: kTertiaryColor,
-                  ),
-                  AppWidgets.getDefaultSizedBox(height: 20),
-                  Center(
-                    child: Column(
-                      children: [
-                        LabelText(
-                          text: '${state.response.current?.tempC}°C',
-                          size: 50,
-                          color: kBlackColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        LabelText(
-                          text:
-                              '( Feels like ${state.response.current?.feelslikeC}°C )',
-                          size: 14,
-                          color: kTertiaryColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        SizedBox(
-                            height: 120.h,
-                            width: 120.h,
-                            child: CachedNetworkImage(
-                                imageUrl:
-                                    'https:${state.response.current?.condition?.icon}',
-                                imageBuilder: (context, imageProvider) =>
-                                    Container(
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            image: DecorationImage(
-                                                image: imageProvider,
-                                                fit: BoxFit.cover))),
-                                errorWidget: (context, url, _) => Container(
-                                    decoration: const BoxDecoration(
-                                        shape: BoxShape.circle),
-                                    child: Image.asset(ImageConst.cloud2Image)),
-                                placeholder: (context, url) => Container(
-                                    decoration: const BoxDecoration(
-                                        shape: BoxShape.circle),
-                                    child:
-                                        Image.asset(ImageConst.cloud2Image)))),
-                        LabelText(
-                          text: '${state.response.current?.condition?.text}',
-                          size: 18,
-                          color: kBlackColor,
-                          fontWeight: FontWeight.w600,
+            // Used OrientationBuilder widget to change the UI after changing orientation
+            body: OrientationBuilder(builder: (context, orientation) {
+              return Container(
+                width: 1.sw,
+                margin: EdgeInsets.symmetric(horizontal: 15.w),
+                child: SingleChildScrollView(
+                  child: orientation == Orientation.portrait
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            titleWidget(state),
+                            mainWidget(state),
+                            descriptionWidget(state, orientation)
+                          ],
                         )
-                      ],
-                    ),
-                  ),
-                  AppWidgets.getDefaultSizedBox(height: 30),
-                  WeatherWidget(
-                    title: 'Cloud',
-                    desc: "${state.response.current?.cloud}%",
-                    image: ImageConst.cloudImage,
-                  ),
-                  WeatherWidget(
-                    title: 'Wind',
-                    desc: "${state.response.current?.windKph} km/h",
-                    image: ImageConst.windImage,
-                  ),
-                  WeatherWidget(
-                    title: 'Humidity',
-                    desc: "${state.response.current?.humidity}%",
-                    image: ImageConst.humidityImage,
-                  ),
-                ],
-              ),
-            ),
+                      : Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            titleWidget(state),
+                            mainWidget(state),
+                            descriptionWidget(state, orientation)
+                          ],
+                        ),
+                ),
+              );
+            }),
           );
         } else {
           return const WeatherErrorWidget();
         }
       },
+    );
+  }
+
+  Column descriptionWidget(DetailsLoadedState state, Orientation orientation) {
+    return Column(
+      children: [
+        AppWidgets.getDefaultSizedBox(height: 30),
+        WeatherWidget(
+          title: 'Cloud',
+          desc: "${state.response.current?.cloud}%",
+          image: ImageConst.cloudImage,
+          orientation: orientation,
+        ),
+        WeatherWidget(
+          title: 'Wind',
+          desc: "${state.response.current?.windKph} km/h",
+          image: ImageConst.windImage,
+           orientation: orientation,
+        ),
+        WeatherWidget(
+          title: 'Humidity',
+          desc: "${state.response.current?.humidity}%",
+          image: ImageConst.humidityImage,
+           orientation: orientation,
+        ),
+      ],
+    );
+  }
+
+  Center mainWidget(DetailsLoadedState state) {
+    return Center(
+      child: Column(
+        children: [
+          LabelText(
+            text: '${state.response.current?.tempC}°C',
+            size: 50,
+            color: kBlackColor,
+            fontWeight: FontWeight.bold,
+          ),
+          LabelText(
+            text: '( Feels like ${state.response.current?.feelslikeC}°C )',
+            size: 14,
+            color: kTertiaryColor,
+            fontWeight: FontWeight.bold,
+          ),
+          SizedBox(
+              height: 120.h,
+              width: 120.h,
+              child: CachedNetworkImage(
+                  imageUrl: 'https:${state.response.current?.condition?.icon}',
+                  imageBuilder: (context, imageProvider) => Container(
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                              image: imageProvider, fit: BoxFit.cover))),
+                  errorWidget: (context, url, _) => Container(
+                      decoration: const BoxDecoration(shape: BoxShape.circle),
+                      child: Image.asset(ImageConst.cloud2Image)),
+                  placeholder: (context, url) => Container(
+                      decoration: const BoxDecoration(shape: BoxShape.circle),
+                      child: Image.asset(ImageConst.cloud2Image)))),
+          LabelText(
+            text: '${state.response.current?.condition?.text}',
+            size: 18,
+            color: kBlackColor,
+            fontWeight: FontWeight.w600,
+          )
+        ],
+      ),
+    );
+  }
+
+  Column titleWidget(DetailsLoadedState state) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        AppWidgets.getDefaultSizedBox(height: 20),
+        LabelText(
+            text:
+                '${state.response.location?.name}, \n${state.response.location?.region}',
+            size: 33,
+            fontWeight: FontWeight.normal,
+            color: kBlackColor),
+        AppWidgets.getDefaultSizedBox(height: 15),
+        LabelText(
+          text: '${state.response.location?.localtime}',
+          size: 14,
+          color: kTertiaryColor,
+        ),
+        AppWidgets.getDefaultSizedBox(height: 20),
+      ],
     );
   }
 }

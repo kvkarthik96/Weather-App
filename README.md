@@ -1,37 +1,36 @@
-# Flight Booking Flutter App
+# Flutter Weather App
 
-This repository contains a Flutter application for flight booking. The app allows users to search for flights, view matching flights, and book their desired flights based on search criteria. This app also allows users to play against each other. The game is a classic tic-tac-toe game and includes the ability to save the user's progress using shared preferences.
+A simple weather app built using Flutter that fetches weather data from a public weather API and displays it to the user.
+
+## Screenshots
+
+![Location Selection Screen](assets/images/home.png)
+![Weather Display Screen](assets/images/deatils.png)
 
 ## Features
 
-- Search for flights by origin, destination, and date.
-- View a list of matching flights.
-- Book flights seamlessly.
+- **Location Selection Screen:**
+  - Users can input a city name or select a city from a predefined list.
+  - After city selection navigating to the weather details screen.
 
-- Play a simple tic-tac-toe game against another player.
-- Save and load game progress using shared preferences.
-
+- **Weather Display Screen:**
+  -  Weather data is fetched from a public weather API based on the selected location.
+  -  A loading indicator is displayed while fetching data.
+  - Graceful error handling with appropriate error messages.
+  - Displays city name, current temperature, weather condition, weather icon, min and max temperature, humidity, and wind speed.
 
 ## Getting Started
 
-Follow these steps to get the app up and running on your local machine.
-
-### Prerequisites
-
-- [Flutter](https://flutter.dev/docs/get-started/install)
-
-### Installation
-
-1. Clone the repository:
+1. Clone this repository:
 
    ```bash
-   git clone https://github.com/kvkarthik96/Flight-Booking.git
+   git clone https://github.com/kvkarthik96/Weather-App
    ```
 
 2. Navigate to the project directory:
 
    ```bash
-   cd FlightBookingApp
+   cd Weather-App
    ```
 
 3. Install dependencies:
@@ -40,59 +39,23 @@ Follow these steps to get the app up and running on your local machine.
    flutter pub get
    ```
 
-### Usage
+4. Run the app:
 
-Run the app on an emulator or a connected device:
+   ```bash
+   flutter run
+   ```
 
-```bash
-flutter run
-```
+## Dependencies
 
-### JSON Payload Sample
+- [http](https://pub.dev/packages/http): A package for making HTTP requests.
+- [shimmer](https://pub.dev/packages/shimmer): A package provides an easy way to add shimmer effect in Flutter project.
+- [flutter_bloc](https://pub.dev/packages/flutter_bloc): State management library for Flutter applications.
+- [flutter_screenutil:](https://pub.dev/packages/flutter_screenutil): A flutter plugin for adapting screen and font size.
+- [cached_network_image:](https://pub.dev/packages/cached_network_image): A flutter library to show images from the internet and keep them in the cache directory.
 
-Here's an example of the JSON payload structure for flight data:
 
-```json
-[
-   {
-      "flight_img": "image_path",
-      "flight_name": "Indigo",
-      "flight_from": "Bengaluru",
-      "flight_to": "Chennai",
-      "flight_from_date": "2023-08-27",
-      "flight_to_date": "2023-08-27",
-      "flight_from_time": "10:15",
-      "flight_to_time": "11:15",
-      "flight_duration": "01 h",
-      "flight_stops": "Non stop",
-      "flight_fare": "2800"
-    },
-    {
-      "flight_img": "image_path",
-      "flight_name": "King Fisher",
-      "flight_from": "Bengaluru",
-      "flight_to": "Chennai",
-      "flight_from_date": "2023-08-27",
-      "flight_to_date": "2023-08-27",
-      "flight_from_time": "8:15",
-      "flight_to_time": "9:15",
-      "flight_duration": "01 h",
-      "flight_stops": "Non stop",
-      "flight_fare": "2700"
-    }
-]
-```
+## API Used
 
-### How to Play
+- [OpenWeatherMap](https://www.weatherapi.com/): Used to fetch weather data.
 
-- Launch the app and start a new game.
-- Players take turns marking empty cells with 'X' or 'O'.
-- The first player to get three of their marks in a row, column, or diagonal wins.
-- The game ends in a draw if all cells are filled and no player has won.
 
-### How to Use
-1. Launch the app and you'll land on the home screen.
-2. Use the search functionality to specify your flight criteria: origin, destination, and date.
-3. Tap the "Search" button to see a list of available flights that match your search.
-4. Choose a flight from the list to view more details.
-5. Book a flight by following the booking process.

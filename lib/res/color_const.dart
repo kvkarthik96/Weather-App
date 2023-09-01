@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+// All the colors used in the app declared here
+
 const kPrimaryColor = Colors.blue;
 const kWhiteColor = Colors.white;
 const kBlackColor = Colors.black;

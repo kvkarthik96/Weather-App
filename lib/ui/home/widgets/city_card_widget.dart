@@ -24,15 +24,8 @@ class CityCardWidget extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            LabelText(
-              text: cityName,
-              size: 16,
-              fontWeight: FontWeight.w600,
-            ),
-            const Icon(
-              Icons.arrow_forward_ios,
-              size: 18,
-            )
+            LabelText(text: cityName, size: 16, fontWeight: FontWeight.w600),
+            const Icon(Icons.arrow_forward_ios, size: 18)
           ],
         ),
       ),

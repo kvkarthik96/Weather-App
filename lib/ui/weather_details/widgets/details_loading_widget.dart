@@ -17,46 +17,82 @@ class DetailsLoadingWidget extends StatelessWidget {
           onPressed: () {
             Navigator.pop(context);
           }),
-      body: Shimmer.fromColors(
-        baseColor: Colors.grey.shade300,
-        highlightColor: Colors.grey.shade400,
-        child: Container(
-          width: 1.sw,
-          margin: EdgeInsets.symmetric(horizontal: 15.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AppWidgets.getDefaultSizedBox(height: 20),
-              ShimmerContainer(height: 45, width: 0.5.sw),
-              AppWidgets.getDefaultSizedBox(height: 10),
-              ShimmerContainer(height: 45, width: 0.5.sw),
-              AppWidgets.getDefaultSizedBox(height: 10),
-              ShimmerContainer(height: 20, width: 0.3.sw),
-              AppWidgets.getDefaultSizedBox(height: 20),
-              Center(
-                child: Column(
-                  children: [
-                    ShimmerContainer(height: 45, width: 0.3.sw),
-                    AppWidgets.getDefaultSizedBox(height: 10),
-                    ShimmerContainer(height: 20, width: 0.3.sw),
-                    SizedBox(
-                        height: 120.h,
-                        width: 120.h,
-                        child: Image.asset(ImageConst.cloud2Image)),
-                    ShimmerContainer(height: 20, width: 0.3.sw),
-                  ],
-                ),
-              ),
-              AppWidgets.getDefaultSizedBox(height: 30),
-              ShimmerContainer(height: 70.h, width: double.infinity),
-              AppWidgets.getDefaultSizedBox(height: 20),
-              ShimmerContainer(height: 70.h, width: double.infinity),
-              AppWidgets.getDefaultSizedBox(height: 20),
-              ShimmerContainer(height: 70.h, width: double.infinity),
-            ],
+      body: OrientationBuilder(builder: (context, orientation) {
+        return Shimmer.fromColors(
+          baseColor: Colors.grey.shade300,
+          highlightColor: Colors.grey.shade400,
+          child: Container(
+            width: 1.sw,
+            margin: EdgeInsets.symmetric(horizontal: 15.w),
+            child: orientation == Orientation.portrait
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      titleWidgetShimmer(),
+                      mainWidgetShimmer(),
+                      descriptionWidgetShimmer()
+                    ],
+                  )
+                : Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(flex: 3, child: titleWidgetShimmer()),
+                      Expanded(flex: 4, child: mainWidgetShimmer()),
+                      Expanded(flex: 3, child: descriptionWidgetShimmer())
+                    ],
+                  ),
           ),
-        ),
+        );
+      }),
+    );
+  }
+
+  Center mainWidgetShimmer() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ShimmerContainer(height: 45, width: 0.3.sw),
+          AppWidgets.getDefaultSizedBox(height: 10),
+          ShimmerContainer(height: 20, width: 0.3.sw),
+          SizedBox(
+              height: 120.h,
+              width: 120.h,
+              child: Image.asset(ImageConst.cloud2Image)),
+          ShimmerContainer(height: 20, width: 0.3.sw),
+        ],
       ),
+    );
+  }
+
+  Column descriptionWidgetShimmer() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        AppWidgets.getDefaultSizedBox(height: 30),
+        ShimmerContainer(height: 70.h, width: double.infinity),
+        AppWidgets.getDefaultSizedBox(height: 20),
+        ShimmerContainer(height: 70.h, width: double.infinity),
+        AppWidgets.getDefaultSizedBox(height: 20),
+        ShimmerContainer(height: 70.h, width: double.infinity),
+      ],
+    );
+  }
+
+  Column titleWidgetShimmer() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        AppWidgets.getDefaultSizedBox(height: 20),
+        ShimmerContainer(height: 45, width: 0.5.sw),
+        AppWidgets.getDefaultSizedBox(height: 10),
+        ShimmerContainer(height: 45, width: 0.5.sw),
+        AppWidgets.getDefaultSizedBox(height: 10),
+        ShimmerContainer(height: 20, width: 0.3.sw),
+        AppWidgets.getDefaultSizedBox(height: 20),
+      ],
     );
   }
 }

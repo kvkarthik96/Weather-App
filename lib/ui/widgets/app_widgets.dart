@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weather_app/ui/utils/texts/label_text.dart';
 
 class AppWidgets {
+  // Common app abr used throught the app
   static appBarWidget(
       {required String title,
       required Function() onPressed,
@@ -32,6 +33,7 @@ class AppWidgets {
     );
   }
 
+  // Used this widget for vertical spacing
   static getDefaultSizedBox({double height = 12}) {
     return SizedBox(height: height.h);
   }

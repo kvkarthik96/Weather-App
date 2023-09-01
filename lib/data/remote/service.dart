@@ -13,17 +13,19 @@ class Service {
     'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com'
   };
 
-  Future<List<String>> getCitiesList() async {
-    return Future.delayed(const Duration(milliseconds: 500)).then((value) {
-      return citiesList;
-    });
-  }
-
+  // Weather Details API call
   Future<WeatherModel> getWeatherDetails(String cityName) async {
     return network
         .get('$baseUrl$cityName', headers: headers)
         .then((dynamic res) {
       return WeatherModel.fromMap(res);
+    });
+  }
+
+  // Fetching static cities list
+  Future<List<String>> getCitiesList() async {
+    return Future.delayed(const Duration(milliseconds: 500)).then((value) {
+      return citiesList;
     });
   }
 }
